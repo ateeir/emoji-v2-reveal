@@ -145,13 +145,17 @@ export default function App() {
 
   return (
     <div 
-      className="min-h-screen bg-vibrant-pink p-6 md:p-10 grid grid-rows-[auto_1fr_auto] md:grid-rows-[80px_1fr_120px] gap-8 h-screen box-border overflow-hidden select-none touch-none"
+      className="min-h-screen bg-vibrant-pink p-6 md:p-10 grid grid-rows-[auto_1fr_auto] md:grid-rows-[80px_1fr_120px] gap-8 h-screen box-border overflow-hidden select-none touch-none cursor-pointer"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onClick={handleRevealOrJiggle}
     >
       {/* Header Section */}
-      <header className="flex flex-col sm:flex-row justify-between items-center z-20 gap-4">
+      <header 
+        className="flex flex-col sm:flex-row justify-between items-center z-20 gap-4 cursor-default"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="font-black text-2xl tracking-tighter bg-vibrant-black text-white px-4 py-2 rounded-xl shadow-[4px_4px_0_#000]">
           EMOJI.BOT
         </div>
@@ -202,15 +206,17 @@ export default function App() {
             }
           }}
           style={{ fontSize }}
-          onClick={handleRevealOrJiggle}
-          className="cursor-pointer leading-none drop-shadow-[0_20px_0px_rgba(0,0,0,0.1)] active:scale-95 transition-[font-size] duration-300 z-10 text-center flex items-center justify-center max-w-[95vw] break-all"
+          className="leading-none drop-shadow-[0_20px_0px_rgba(0,0,0,0.1)] active:scale-95 transition-[font-size] duration-300 z-10 text-center flex items-center justify-center max-w-[95vw] break-all"
         >
           {displayContent}
         </motion.div>
       </main>
 
       {/* Bottom Controls / Stats */}
-      <nav className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 z-40 pb-4 sm:pb-0">
+      <nav 
+        className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 z-40 pb-4 sm:pb-0 cursor-default"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Zoom Slider */}
         <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-full border-3 border-vibrant-black shadow-[4px_4px_0_#000]">
           <span className="text-[10px] font-black uppercase text-vibrant-black/40">Zoom</span>
