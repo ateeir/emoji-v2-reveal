@@ -6,7 +6,7 @@ import { useState, useRef, TouchEvent } from "react";
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const EMOJI_OPTIONS = ["🫠", "🥹", "🥳", "🤡", "👻", "👾", "🤖", "🐥", "🍩", "🌈"];
+const EMOJI_OPTIONS = ["🫠", "🥹", "🥳", "😎", "🥰", "🤩", "🤪", "🤠", "😊", "😇", "👻", "🌈"];
 
 const JIGGLE_VARIANTS = [
   {
@@ -59,17 +59,21 @@ export default function App() {
   const [selectedEmoji, setSelectedEmoji] = useState(EMOJI_OPTIONS[0]);
   const [customText, setCustomText] = useState("");
   const [activeVariant, setActiveVariant] = useState(0);
-  const [selectedSound, setSelectedSound] = useState(SOUND_OPTIONS[0].url);
+  const [selectedSound, setSelectedSound] = useState(() => SOUND_OPTIONS[Math.floor(Math.random() * SOUND_OPTIONS.length)].url);
   const [zoomLevel, setZoomLevel] = useState(0.5);
 
   const initialPinchDistance = useRef<number | null>(null);
   const initialZoomOnPinch = useRef<number | null>(null);
 
   const handleRevealOrJiggle = () => {
+    // Pick a random sound from the options
+    const nextSoundUrl = SOUND_OPTIONS[Math.floor(Math.random() * SOUND_OPTIONS.length)].url;
+    setSelectedSound(nextSoundUrl);
+
     if (!isRevealed) {
       setIsRevealed(true);
-      // Play selected sound on reveal
-      const audio = new Audio(selectedSound);
+      // Play random sound on reveal
+      const audio = new Audio(nextSoundUrl);
       audio.volume = 0.4;
       audio.play().catch(e => console.log("Audio playback blocked:", e));
       
@@ -89,8 +93,8 @@ export default function App() {
       setJiggling(true);
       setTapCount(prev => prev + 1);
 
-      // Play sound
-      const audio = new Audio(selectedSound);
+      // Play random sound
+      const audio = new Audio(nextSoundUrl);
       audio.volume = 0.4;
       audio.play().catch(e => console.log("Audio playback blocked:", e));
     }
@@ -231,6 +235,20 @@ export default function App() {
             placeholder="Type..."
             className="w-16 sm:w-28 bg-transparent outline-none font-black text-base sm:text-lg placeholder:text-vibrant-black/10 text-vibrant-black"
           />
+        </div>
+
+        {/* Emoji Selector Dropdown */}
+        <div className="flex items-center gap-3 bg-white px-5 py-3 rounded-full border-3 border-vibrant-black shadow-[4px_4px_0_#000]">
+          <span className="text-[10px] font-black uppercase text-vibrant-black/40">Emoji</span>
+          <select 
+            value={selectedEmoji} 
+            onChange={(e) => setSelectedEmoji(e.target.value)}
+            className="bg-transparent outline-none font-black text-sm sm:text-base cursor-pointer hover:text-vibrant-mint transition-colors appearance-none"
+          >
+            {EMOJI_OPTIONS.map((emoji) => (
+              <option key={emoji} value={emoji}>{emoji}</option>
+            ))}
+          </select>
         </div>
 
         {/* Sound Selector Dropdown */}
